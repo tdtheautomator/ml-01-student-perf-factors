@@ -1,0 +1,7 @@
+pandas
+numpy
+seaborn
+matplotlib
+scikit-learn
+
+#-e . #un-comment to automatically create package
