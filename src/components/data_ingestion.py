@@ -21,8 +21,10 @@ class DataIngestion:
     def initiate_data_ingestion(self):
         logging.info("initiated data ingestion")
         try:
+            #curr_dir=os.getcwd()
+            #logging.info(f'current directory is {curr_dir}')
             logging.info('reading datset as dataframe')
-            df=pd.read_csv('/data/student_performance_factors.csv')
+            df=pd.read_csv('./data/student_performance_factors.csv')
             
             logging.info("creating outputs folders if doesn't exist")
             os.makedirs(os.path.dirname(self.ingestion_config.training_data_path),exist_ok=True)
@@ -46,6 +48,7 @@ class DataIngestion:
                 self.ingestion_config.test_data_path
             )
         except Exception as e:
+            logging.error(e)
             raise CustomException(e,sys)
 
 if __name__=="__main__":

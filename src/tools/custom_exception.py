@@ -1,5 +1,4 @@
 #file used to create code for custom exception handling
-
 import sys
 from src.tools.custom_logger import logging
 
@@ -22,5 +21,5 @@ if __name__=="__main__":
     try:
         x=5/0
     except Exception as e:
-        logging.info(sys)
+        logging.error(e)
         raise CustomException(e,sys)
