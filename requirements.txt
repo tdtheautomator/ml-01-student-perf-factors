@@ -4,4 +4,4 @@ seaborn
 matplotlib
 scikit-learn
 
-#-e . #un-comment to automatically create package
+#-e . #un-comment to automatically create package when pip install -r requirements.txt is triggered
