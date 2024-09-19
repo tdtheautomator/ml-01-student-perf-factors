@@ -1,6 +1,7 @@
 #file used to create code for custom exception handling
 
 import sys
+from src.tools.custom_logger import logging
 
 def error_message_detail(error,error_detail:sys):
     _,_,exc_tb=error_detail.exc_info()
@@ -21,4 +22,5 @@ if __name__=="__main__":
     try:
         x=5/0
     except Exception as e:
+        logging.info(sys)
         raise CustomException(e,sys)
