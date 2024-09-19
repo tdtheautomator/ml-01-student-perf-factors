@@ -15,7 +15,7 @@ def get_requirements(file_path:str)->List[str]:
 
 #metadat for the project
 setup(
-name='mlproject01',
+name='ml-01-student-perf-factors',
 version='0.1.0',
 author='TD',
 packages=find_packages(),
