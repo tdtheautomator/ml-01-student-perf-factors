@@ -6,6 +6,7 @@ from src.tools.custom_logger import logging
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
+from src.components.data_transformation import DataTransformation, DataTransformationConfig
 
 @dataclass
 class DataIngestionConfig:
@@ -30,10 +31,10 @@ class DataIngestion:
             df.to_csv(self.ingestion_config.raw_data_path,index=False,header=True)
 
             logging.info("spliting training and test data")
-            train_set,test_set=train_test_split(df,test_size=0.2,random_state=None)
+            training_set,test_set=train_test_split(df,test_size=0.2,random_state=None)
             
             logging.info('exporting training dataset to outputs')
-            train_set.to_csv(self.ingestion_config.training_data_path,index=False,header=True)
+            training_set.to_csv(self.ingestion_config.training_data_path,index=False,header=True)
             
             logging.info('exporting test dataset to outputs')
             test_set.to_csv(self.ingestion_config.test_data_path,index=False,header=True)
@@ -49,4 +50,7 @@ class DataIngestion:
 
 if __name__=="__main__":
     obj=DataIngestion()
-    train_data,test_data=obj.initiate_data_ingestion()
+    training_data,test_data=obj.initiate_data_ingestion()
+
+    data_transformation=DataTransformation()
+    training_arr,test_arr,_=data_transformation.initiate_data_transformation(training_data,test_data)
