@@ -17,7 +17,7 @@ def get_requirements(file_path:str)->List[str]:
 setup(
 name='ml-01-student-perf-factors',
 version='0.1.0',
-author='TD',
+author='tdtheautomator',
 packages=find_packages(),
 install_requires=get_requirements('requirements.txt')
 )

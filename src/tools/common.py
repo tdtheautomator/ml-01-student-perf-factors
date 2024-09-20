@@ -36,9 +36,7 @@ def evaluate_models(X_training, y_training,X_test,y_test,models,param):
     try:
         report = {}
         for i in range(len(list(models))):
-            logging.info(f"evaluating {i}")
             model = list(models.values())[i]
-            
             para=param[list(models.keys())[i]]
             gs = GridSearchCV(model,para,cv=3)
             gs.fit(X_training,y_training)

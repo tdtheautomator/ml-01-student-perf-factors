@@ -7,4 +7,4 @@ scikit-learn
 catboost
 xgboost
 dill
-#-e . #un-comment to automatically create package when pip install -r requirements.txt is triggered
+-e .

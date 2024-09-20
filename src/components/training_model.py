@@ -10,14 +10,10 @@ from src.tools.common import save_object, evaluate_models
 
 from catboost import CatBoostRegressor
 from sklearn.ensemble import (
-    AdaBoostRegressor,
-    GradientBoostingRegressor,
     RandomForestRegressor,
 )
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score
-from sklearn.neighbors import KNeighborsRegressor
-from sklearn.tree import DecisionTreeRegressor
 
 
 @dataclass
@@ -64,7 +60,6 @@ class TrainingModel:
             for k,v in model_report.items():
                 v = round(v,2)
                 logging.info(f"Model: {k}, R2 Score: {v}")
-            #print(f"Best Model: {best_model_name}, R2 Score: {best_model_score}")
             logging.info(f"best model selected is {best_model_name} with accuracy of {best_model_score}")
 
             if best_model_score<0.5:
