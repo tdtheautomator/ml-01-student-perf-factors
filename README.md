@@ -1,10 +1,7 @@
-# Machine Learning Deployment Project
+# Machine Learning Prediction of Student Performance 
 
-Sample dataset from [Kaggle](https://www.kaggle.com/)
-
-## Student Performance 
-
-A simple model using several categories to predict student's score.
+Sample dataset from [Kaggle](https://www.kaggle.com/)<br />
+A simple model using several categories to predict student's score.<br />
 
 - Hours_Studied
 - Attendance
@@ -34,13 +31,14 @@ A simple model using several categories to predict student's score.
 - Random Forest
 
 ## Note
+Accuracy evaluation depends on system config and performance. <br />
 This is a sample code to understand how it's built. <br />
 The dataset is only about 6000 rows which not sufficient to train the model for accuracy and needs fine tuning.<br />
 Models are **not** configured with any hypertuning parameters.
 
 ## Usage (CLI)
 
-- ensure anaconda is installed [Anaconda Download](https://www.anaconda.com/download)
+- Ensure anaconda is installed [Anaconda Download](https://www.anaconda.com/download)
 - Clone git repo
 - Create new virtual environment
 ```
@@ -73,8 +71,8 @@ conda deactivate
 ## Usage (Jupyter Notebooks)
 
 - Select kernel (virtual environment)
-- For Exploratory Data Analysis (EDA) use : .\notebooks\eda_student_performance.ipynb
-- For Training use : .\notebooks\train_student_performance.ipynb
+- For Exploratory Data Analysis (EDA) use .\notebooks\eda_student_performance.ipynb
+- For Training use .\notebooks\train_student_performance.ipynb
 
 ## Known Issues
 
