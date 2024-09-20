@@ -41,13 +41,9 @@ class TrainingModel:
                 test_array[:,-1]       #all rows except last
             )
             models = {
-                "Random Forest": RandomForestRegressor(),
-                "Decision Tree": DecisionTreeRegressor(),
-                "Gradient Boosting": GradientBoostingRegressor(),
                 "Linear Regression": LinearRegression(),
-                "XGBRegressor": XGBRegressor(),
                 "CatBoosting Regressor": CatBoostRegressor(verbose=False),
-                "AdaBoost Regressor": AdaBoostRegressor(),
+                "Random Forest": RandomForestRegressor(),
             }
             
             model_report:dict=evaluate_models(X_training=X_training,y_training=y_training,X_test=X_test,y_test=y_test,models=models)
