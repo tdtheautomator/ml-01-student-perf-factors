@@ -61,6 +61,11 @@ class TrainingModel:
                 list(model_report.values()).index(best_model_score)
             ]
             best_model = models[best_model_name]
+            for k,v in model_report.items():
+                v = round(v,2)
+                logging.info(f"Model: {k}, R2 Score: {v}")
+            #print(f"Best Model: {best_model_name}, R2 Score: {best_model_score}")
+            logging.info(f"best model selected is {best_model_name} with accuracy of {best_model_score}")
 
             if best_model_score<0.5:
                 logging.error("unable to find any model with 0.5 and above accuracy,exiting")
@@ -76,7 +81,7 @@ class TrainingModel:
             predicted=best_model.predict(X_test)
             r2_square = r2_score(y_test, predicted)
             logging.info("completed training model")
-            return r2_square
+            return r2_square, best_model_name
         
         except Exception as e:
             logging.error(e)

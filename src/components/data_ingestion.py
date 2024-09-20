@@ -55,7 +55,7 @@ class DataIngestion:
             raise CustomException(e,sys)
 
 if __name__=="__main__":
-    print('-'*40)
+    print('-'*80)
     print("execution started")
 
     data_ingestion_start_time = time.time()
@@ -64,24 +64,24 @@ if __name__=="__main__":
     data_ingestion_end_time = time.time()
     data_ingestion_time = round((data_ingestion_end_time - data_ingestion_start_time),2)
     logging.info(f"data ingestion completed in {data_ingestion_time} secs")
-    print(f"data ingestion completed in {data_ingestion_time} secs")
+    print(f" - data ingestion completed in {data_ingestion_time} secs")
 
     data_transformation=DataTransformation()
     training_arr,test_arr,_=data_transformation.initiate_data_transformation(training_data,test_data)
     data_transformation_end_time = time.time()
     data_transformation_time = round((data_transformation_end_time - data_ingestion_end_time),2)
     logging.info(f"data transformation completed in {data_transformation_time} secs")
-    print(f"data transformation completed in {data_transformation_time} secs")
+    print(f" - data transformation completed in {data_transformation_time} secs")
 
     modeltrainer=TrainingModel()
-    accuracy = round((modeltrainer.initiate_training_model(training_arr,test_arr))*100,2)
+    results = modeltrainer.initiate_training_model(training_arr,test_arr)
+    accuracy = round(results[0]*100,2)
     training_model_end_time = time.time()
     training_model_time = round((training_model_end_time - data_transformation_end_time),2)
     total_time = round((training_model_end_time - data_ingestion_start_time),2)
     logging.info(f"training model completed in {training_model_time} secs")
-    logging.info(f"total execution completed in {training_model_time} secs with best accuracy of {accuracy}%")
-    print(f"training model completed in {training_model_time} secs")
-    print(f"total execution completed in {training_model_time} secs with best accuracy of {accuracy}%")
-
-    print("execution complete.")
-    print('-'*40)
+    logging.info(f"execution completed in {training_model_time} secs with best accuracy of {accuracy}% using {results[1]} model")
+    print(f" - training model completed in {training_model_time} secs")
+    print('-'*80)
+    print(f"execution completed in {training_model_time} secs with best accuracy of {accuracy}% using {results[1]} model")
+    print('-'*80)
