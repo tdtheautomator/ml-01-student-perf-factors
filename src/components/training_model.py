@@ -18,7 +18,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.tree import DecisionTreeRegressor
-from xgboost import XGBRegressor
+
 
 @dataclass
 
@@ -34,19 +34,26 @@ class TrainingModel:
         logging.info("initiated training model")
         try:
             logging.info("spliting training and test data")
+
             X_training,y_training,X_test,y_test=(
-                training_array[:,:-1], #all columns except last
-                training_array[:,-1],  #all rows except last
-                test_array[:,:-1],     #all columns except last
-                test_array[:,-1]       #all rows except last
+                training_array[:,:-1], #all rows and columns except column
+                training_array[:,-1],  #only last column
+                test_array[:,:-1],     #all rows and columns except column
+                test_array[:,-1]       #only last column
             )
             models = {
                 "Linear Regression": LinearRegression(),
                 "CatBoosting Regressor": CatBoostRegressor(verbose=False),
-                "Random Forest": RandomForestRegressor(),
+                "Random Forest": RandomForestRegressor()
+            }
+            #used for hyper tuning
+            params={
+                "Linear Regression":{},
+                "CatBoosting Regressor":{},
+                "Random Forest":{}
             }
             
-            model_report:dict=evaluate_models(X_training=X_training,y_training=y_training,X_test=X_test,y_test=y_test,models=models)
+            model_report:dict=evaluate_models(X_training=X_training,y_training=y_training,X_test=X_test,y_test=y_test,models=models,param=params)
 
             logging.info("evaluating best model name and score")
             best_model_score = max(sorted(model_report.values()))

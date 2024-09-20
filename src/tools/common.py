@@ -32,15 +32,21 @@ def load_object(file_path):
         raise CustomException(e, sys)
 
  #function for evaluating models
-def evaluate_models(X_training, y_training,X_test,y_test,models):
+def evaluate_models(X_training, y_training,X_test,y_test,models,param):
     try:
         report = {}
         for i in range(len(list(models))):
             model = list(models.values())[i]
+            
+            para=param[list(models.keys())[i]]
+            gs = GridSearchCV(model,para,cv=3)
+            gs.fit(X_training,y_training)
+            model.set_params(**gs.best_params_)
+
             model.fit(X_training, y_training)
             y_training_pred = model.predict(X_training)
             y_test_pred = model.predict(X_test)
-            #training_model_score = r2_score(y_training, y_training_pred)
+            training_model_score = r2_score(y_training, y_training_pred)
             test_model_score = r2_score(y_test, y_test_pred)
             report[list(models.keys())[i]] = test_model_score
         return report
