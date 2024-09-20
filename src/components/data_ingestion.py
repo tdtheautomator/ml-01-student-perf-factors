@@ -7,6 +7,9 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
 from src.components.data_transformation import DataTransformation, DataTransformationConfig
+from src.components.training_model import TrainingModel, TrainingModelConfig
+import time
+
 
 @dataclass
 class DataIngestionConfig:
@@ -22,23 +25,23 @@ class DataIngestion:
         logging.info("initiated data ingestion")
         try:
             #curr_dir=os.getcwd()
-            #logging.info(f'current directory is {curr_dir}')
-            logging.info('reading datset as dataframe')
+            #logging.info(f"current directory is {curr_dir}")
+            logging.info("reading datset as dataframe")
             df=pd.read_csv('./data/student_performance_factors.csv')
             
             logging.info("creating outputs folders if doesn't exist")
             os.makedirs(os.path.dirname(self.ingestion_config.training_data_path),exist_ok=True)
             
-            logging.info('exporting dataframe to csv to outputs')
+            logging.info("exporting dataframe to csv to outputs")
             df.to_csv(self.ingestion_config.raw_data_path,index=False,header=True)
 
             logging.info("spliting training and test data")
             training_set,test_set=train_test_split(df,test_size=0.2,random_state=None)
             
-            logging.info('exporting training dataset to outputs')
+            logging.info("exporting training dataset to outputs")
             training_set.to_csv(self.ingestion_config.training_data_path,index=False,header=True)
             
-            logging.info('exporting test dataset to outputs')
+            logging.info("exporting test dataset to outputs")
             test_set.to_csv(self.ingestion_config.test_data_path,index=False,header=True)
 
             logging.info("data ingestion completed")
@@ -52,8 +55,33 @@ class DataIngestion:
             raise CustomException(e,sys)
 
 if __name__=="__main__":
+    print('-'*40)
+    print("execution started")
+
+    data_ingestion_start_time = time.time()
     obj=DataIngestion()
     training_data,test_data=obj.initiate_data_ingestion()
+    data_ingestion_end_time = time.time()
+    data_ingestion_time = round((data_ingestion_end_time - data_ingestion_start_time),2)
+    logging.info(f"data ingestion completed in {data_ingestion_time} secs")
+    print(f"data ingestion completed in {data_ingestion_time} secs")
 
     data_transformation=DataTransformation()
     training_arr,test_arr,_=data_transformation.initiate_data_transformation(training_data,test_data)
+    data_transformation_end_time = time.time()
+    data_transformation_time = round((data_transformation_end_time - data_ingestion_end_time),2)
+    logging.info(f"data transformation completed in {data_transformation_time} secs")
+    print(f"data transformation completed in {data_transformation_time} secs")
+
+    modeltrainer=TrainingModel()
+    accuracy = round((modeltrainer.initiate_training_model(training_arr,test_arr))*100,2)
+    training_model_end_time = time.time()
+    training_model_time = round((training_model_end_time - data_transformation_end_time),2)
+    total_time = round((training_model_end_time - data_ingestion_start_time),2)
+    logging.info(f"training model completed in {training_model_time} secs")
+    logging.info(f"total execution completed in {training_model_time} secs with best accuracy of {accuracy}%")
+    print(f"training model completed in {training_model_time} secs")
+    print(f"total execution completed in {training_model_time} secs with best accuracy of {accuracy}%")
+
+    print("execution complete.")
+    print('-'*40)

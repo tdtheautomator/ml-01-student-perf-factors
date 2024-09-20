@@ -21,8 +21,9 @@ class DataTransformation:
         self.data_transformation_config=DataTransformationConfig()
 
     def get_data_transformer_object(self):
+        logging.info("initiated data transformation")
         try:
-            logging.info('defining numeric columns')
+            logging.info("defining numeric columns")
             numeric_columns = [
                 'Hours_Studied', 
                 'Attendance', 
@@ -32,7 +33,7 @@ class DataTransformation:
                 'Physical_Activity',
                 ]
             
-            logging.info('defining category columns')
+            logging.info("defining category columns")
             category_columns = [
                 'Parental_Involvement', 
                 'Access_to_Resources', 
@@ -49,14 +50,14 @@ class DataTransformation:
                 'Gender',
                 ]
             
-            logging.info('defining numeric pipeline')
+            logging.info("defining numeric pipeline")
             numeric_pipeline= Pipeline(
                 steps=[
                 ("imputer",SimpleImputer(strategy="median")), #handle missing values
                 ("scaler",StandardScaler())
                 ]
             )
-            logging.info('defining category pipeline')
+            logging.info("defining category pipeline")
             category_pipeline= Pipeline(
                 steps=[
                 ("imputer",SimpleImputer(strategy="most_frequent")), #handle missing values
@@ -64,7 +65,7 @@ class DataTransformation:
                 ("scaler",StandardScaler(with_mean=False))
                 ]
             )
-            logging.info('initiating column transformer')
+            logging.info("initiating column transformer")
             preprocessor=ColumnTransformer(
                 [
                 ("num_pipeline",numeric_pipeline,numeric_columns),
@@ -75,11 +76,12 @@ class DataTransformation:
             return preprocessor
 
         except Exception as e:
+            logging.error(e)
             raise CustomException(e,sys)
         
     def initiate_data_transformation(self,training_data_path,test_data_path):
         try:
-            logging.info('loading training data into dataframe')
+            logging.info("loading training data into dataframe")
             training_df=pd.read_csv(training_data_path)
             logging.info('loading test data into dataframe')
             test_df=pd.read_csv(test_data_path)
@@ -89,15 +91,15 @@ class DataTransformation:
 
             target_column_name = "Exam_Score"
             
-            logging.info(f'droppin target column {target_column_name} from training dataframe' )
+            logging.info(f"dropping target column {target_column_name} from training dataframe" )
             input_feature_training_df=training_df.drop(columns=[target_column_name],axis=1)
             target_feature_training_df=training_df[target_column_name]
 
-            logging.info(f'droppin target column {target_column_name} from test dataframe' )
+            logging.info(f"dropping target column {target_column_name} from test dataframe" )
             input_feature_test_df=test_df.drop(columns=[target_column_name],axis=1)
             target_feature_test_df=test_df[target_column_name]
 
-            logging.info('performing preprocessing')
+            logging.info("performing preprocessing")
             '''
             fit() method helps in fitting the data into a model.
             transform() method helps in transforming the data into a form that is more suitable for the model.
@@ -106,11 +108,11 @@ class DataTransformation:
             input_feature_training_arr=preprocessing_obj.fit_transform(input_feature_training_df)
             input_feature_test_arr=preprocessing_obj.transform(input_feature_test_df)
 
-            logging.info('slicing objects to concatenation along the second axis')
+            logging.info("slicing objects to concatenation along the second axis")
             training_arr = np.c_[input_feature_training_arr, np.array(target_feature_training_df)]
             test_arr = np.c_[input_feature_test_arr, np.array(target_feature_test_df)]
 
-            logging.info('saving preprocessing objects')
+            logging.info("saving preprocessing objects")
             save_object(
                 file_path=self.data_transformation_config.preprocessor_obj_file_path,
                 obj=preprocessing_obj

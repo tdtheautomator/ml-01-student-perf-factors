@@ -25,7 +25,7 @@ A simple model using several categories to predict student's score.
 - Parental_Education_Level
 - Distance_from_Home
 - Gender
+- Exam_Score **(to be predicted)**
 
-
-**This is by no means an accurate model but just a sample to understand how it's built.**
-The dataset is only about 6000 rows which not sufficient to train the model for accuracy.
+This is a sample code to understand how it's built. <br />
+The dataset is only about 6000 rows which not sufficient to train the model for accuracy and needs fine tuning.
