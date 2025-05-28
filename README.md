@@ -1,3 +1,4 @@
+![Project 01](images/image.png)
 # Machine Learning Prediction of Student Performance 
 
 Sample dataset from [Kaggle](https://www.kaggle.com/)<br />
